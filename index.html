@@ -114,6 +114,137 @@
             animation: fadeInUp 1.4s ease;
         }
 
+        /* Data Visualization Dashboard */
+        .data-dashboard {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 1.6s ease;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dashboard-title {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .dashboard-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #10b981;
+            font-size: 0.85rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-line {
+            fill: none;
+            stroke: var(--accent-color);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+        }
+
+        .chart-area {
+            fill: url(#gradient);
+            opacity: 0.3;
+        }
+
+        .chart-grid {
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 1;
+        }
+
+        .chart-point {
+            fill: var(--accent-color);
+            stroke: white;
+            stroke-width: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chart-point:hover {
+            r: 6;
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8));
+        }
+
+        .metric-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .trend-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.7rem;
+            color: #10b981;
+            margin-top: 0.25rem;
+        }
+
         .btn-primary:hover {
             background: var(--secondary-color);
             transform: translateY(-2px);
@@ -357,6 +488,24 @@
             .stat-number {
                 font-size: 2rem;
             }
+
+            .data-dashboard {
+                margin-top: 2rem;
+                padding: 1.5rem;
+            }
+
+            .chart-container {
+                height: 200px;
+            }
+
+            .metric-cards {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .metric-value {
+                font-size: 1.25rem;
+            }
         }
 
         /* Scroll Animation */
@@ -413,8 +562,65 @@
                     <a href="#projects" class="btn btn-primary btn-lg">Projelerimi İncele</a>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <div class="hero-content">
-                        <i class="bi bi-graph-up-arrow" style="font-size: 15rem; color: rgba(255, 255, 255, 0.1);"></i>
+                    <div class="data-dashboard">
+                        <div class="dashboard-header">
+                            <div class="dashboard-title">Canlı Performans Dashboard</div>
+                            <div class="dashboard-status">
+                                <span class="status-dot"></span>
+                                <span>Canlı</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <svg width="100%" height="100%" viewBox="0 0 500 250" preserveAspectRatio="xMidYMid meet">
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.4" />
+                                        <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Grid Lines -->
+                                <line class="chart-grid" x1="0" y1="50" x2="500" y2="50"></line>
+                                <line class="chart-grid" x1="0" y1="125" x2="500" y2="125"></line>
+                                <line class="chart-grid" x1="0" y1="200" x2="500" y2="200"></line>
+                                <!-- Area Chart -->
+                                <path class="chart-area" d="M 50,200 Q 125,180 200,150 T 350,80 T 450,50 L 450,250 L 50,250 Z" id="areaPath"></path>
+                                <!-- Line Chart -->
+                                <path class="chart-line" d="M 50,200 Q 125,180 200,150 T 350,80 T 450,50" id="linePath"></path>
+                                <!-- Data Points -->
+                                <circle class="chart-point" cx="50" cy="200" r="4"></circle>
+                                <circle class="chart-point" cx="125" cy="180" r="4"></circle>
+                                <circle class="chart-point" cx="200" cy="150" r="4"></circle>
+                                <circle class="chart-point" cx="275" cy="110" r="4"></circle>
+                                <circle class="chart-point" cx="350" cy="80" r="4"></circle>
+                                <circle class="chart-point" cx="450" cy="50" r="4"></circle>
+                            </svg>
+                        </div>
+                        <div class="metric-cards">
+                            <div class="metric-card">
+                                <div class="metric-value" id="metric1">+24%</div>
+                                <div class="metric-label">Büyüme</div>
+                                <div class="trend-indicator">
+                                    <i class="bi bi-arrow-up"></i>
+                                    <span>12% artış</span>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="metric2">1.2M</div>
+                                <div class="metric-label">Veri Noktası</div>
+                                <div class="trend-indicator">
+                                    <i class="bi bi-arrow-up"></i>
+                                    <span>5% artış</span>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="metric3">98%</div>
+                                <div class="metric-label">Doğruluk</div>
+                                <div class="trend-indicator">
+                                    <i class="bi bi-arrow-up"></i>
+                                    <span>2% artış</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -783,6 +989,118 @@
                 if (link.getAttribute('href') === `#${current}`) {
                     link.classList.add('active');
                 }
+            });
+        });
+
+        // Animated Chart Drawing
+        function animateChart() {
+            const linePath = document.getElementById('linePath');
+            const areaPath = document.getElementById('areaPath');
+            
+            if (!linePath || !areaPath) return;
+
+            // Define the path data
+            const lineData = 'M 50,200 Q 125,180 200,150 T 350,80 T 450,50';
+            const areaData = 'M 50,200 Q 125,180 200,150 T 350,80 T 450,50 L 450,250 L 50,250 Z';
+
+            // Get the total length of the path
+            const pathLength = linePath.getTotalLength();
+            
+            // Set up the starting positions
+            linePath.style.strokeDasharray = pathLength;
+            linePath.style.strokeDashoffset = pathLength;
+            areaPath.style.opacity = '0';
+
+            // Animate the line drawing
+            let progress = 0;
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation
+                const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+                
+                linePath.style.strokeDashoffset = pathLength * (1 - easeOutCubic);
+                
+                // Fade in area and points as line draws
+                if (progress > 0.3) {
+                    areaPath.style.opacity = ((progress - 0.3) / 0.7) * 0.3;
+                }
+                
+                if (progress > 0.5) {
+                    const points = document.querySelectorAll('.chart-point');
+                    points.forEach((point, index) => {
+                        const pointProgress = Math.max(0, (progress - 0.5 - index * 0.1) / 0.5);
+                        point.style.opacity = pointProgress;
+                        point.style.transform = `scale(${0.5 + pointProgress * 0.5})`;
+                    });
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    // Animation complete - ensure everything is visible
+                    linePath.style.strokeDashoffset = 0;
+                    areaPath.style.opacity = '0.3';
+                    document.querySelectorAll('.chart-point').forEach(point => {
+                        point.style.opacity = '1';
+                        point.style.transform = 'scale(1)';
+                    });
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Animate metric values
+        function animateMetrics() {
+            const metrics = [
+                { id: 'metric1', target: 24, suffix: '%' },
+                { id: 'metric2', target: 1.2, suffix: 'M', isDecimal: true },
+                { id: 'metric3', target: 98, suffix: '%' }
+            ];
+
+            metrics.forEach((metric, index) => {
+                const element = document.getElementById(metric.id);
+                if (!element) return;
+
+                setTimeout(() => {
+                    let current = 0;
+                    const duration = 1500;
+                    const increment = metric.target / (duration / 16);
+                    const isDecimal = metric.isDecimal;
+
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= metric.target) {
+                            element.textContent = (isDecimal ? metric.target.toFixed(1) : metric.target) + metric.suffix;
+                            clearInterval(timer);
+                        } else {
+                            element.textContent = (isDecimal ? current.toFixed(1) : Math.floor(current)) + metric.suffix;
+                        }
+                    }, 16);
+                }, index * 200);
+            });
+        }
+
+        // Initialize animations when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                animateChart();
+                animateMetrics();
+            }, 500);
+        });
+
+        // Add hover effect to chart points
+        document.querySelectorAll('.chart-point').forEach(point => {
+            point.addEventListener('mouseenter', function() {
+                this.style.r = '6';
+            });
+            point.addEventListener('mouseleave', function() {
+                this.style.r = '4';
             });
         });
     </script>
